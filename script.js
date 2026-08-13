@@ -489,7 +489,7 @@
     const [model, code, srp, dp, m12, m18, m24, m30, m36, m48] = rowData;
     
     // Format the text for clipboard
-    const text = `🏍️ SUMISHO MOTORS - ${brandName.toUpperCase()}
+    const text = `🏍️ MotoXpress Mandaue - ${brandName.toUpperCase()}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📋 MOTORCYCLE DETAILS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
