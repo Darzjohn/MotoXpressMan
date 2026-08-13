@@ -494,7 +494,6 @@
 📋 MOTORCYCLE DETAILS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚲 Model: ${model}
-
 💰 SRP: ${formatCurrency(srp)}
 💵 Down Payment: ${formatCurrency(dp)}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
