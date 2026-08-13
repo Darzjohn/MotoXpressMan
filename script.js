@@ -478,6 +478,127 @@
     brandFooter.textContent = brand.charAt(0).toUpperCase() + brand.slice(1);
   }
 
+  // Format currency
+  function formatCurrency(value) {
+    if (value === 'N/A' || value === '—') return value;
+    return '₱' + Number(value).toLocaleString();
+  }
+
+  // Copy to clipboard function
+  function copyRowToClipboard(rowData, brandName) {
+    const [model, code, srp, dp, m12, m18, m24, m30, m36, m48] = rowData;
+    
+    // Format the text for clipboard
+    const text = `🏍️ SUMISHO MOTORS - ${brandName.toUpperCase()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 MOTORCYCLE DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚲 Model: ${model}
+🔧 Code: ${code || '—'}
+💰 SRP: ${formatCurrency(srp)}
+💵 Down Payment: ${formatCurrency(dp)}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 INSTALLMENT PLANS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12 months: ${formatCurrency(m12)}
+18 months: ${formatCurrency(m18)}
+24 months: ${formatCurrency(m24)}
+30 months: ${formatCurrency(m30)}
+36 months: ${formatCurrency(m36)}
+48 months: ${formatCurrency(m48)}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+
+    // Copy to clipboard
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('✅ Motorcycle details copied to clipboard!');
+      }).catch(() => {
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  // Fallback copy method
+  function fallbackCopy(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      showToast('✅ Motorcycle details copied to clipboard!');
+    } catch (err) {
+      showToast('❌ Failed to copy. Please copy manually.');
+    }
+    document.body.removeChild(textarea);
+  }
+
+  // Toast notification
+  function showToast(message) {
+    // Remove existing toast
+    const existingToast = document.querySelector('.toast-notification');
+    if (existingToast) {
+      existingToast.remove();
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.textContent = message;
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1b5e20;
+      color: white;
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      z-index: 2000;
+      animation: toastSlideUp 0.3s ease;
+      border: 1px solid #4caf50;
+      max-width: 90%;
+      text-align: center;
+    `;
+
+    // Add animation keyframes if not already added
+    if (!document.getElementById('toastStyles')) {
+      const style = document.createElement('style');
+      style.id = 'toastStyles';
+      style.textContent = `
+        @keyframes toastSlideUp {
+          from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+          to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        @keyframes toastFadeOut {
+          from { opacity: 1; transform: translateX(-50%) translateY(0); }
+          to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    document.body.appendChild(toast);
+
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+      toast.style.animation = 'toastFadeOut 0.3s ease forwards';
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.remove();
+        }
+      }, 300);
+    }, 3000);
+  }
+
   // render
   function render(data) {
     if (data.length === 0) {
@@ -486,9 +607,11 @@
       return;
     }
     let html = '';
-    data.forEach(row => {
+    const brandName = currentBrand.charAt(0).toUpperCase() + currentBrand.slice(1);
+    
+    data.forEach((row, index) => {
       const [model, code, srp, dp, m12, m18, m24, m30, m36, m48] = row;
-      html += `<tr>
+      html += `<tr class="clickable-row" data-index="${index}" style="cursor: pointer;">
         <td class="model-name">${model}</td>
         <td><span class="model-code">${code || '—'}</span></td>
         <td class="srp">₱${srp.toLocaleString()}</td>
@@ -502,15 +625,28 @@
       </tr>`;
     });
     tbody.innerHTML = html;
+
+    // Add click event listeners to rows
+    document.querySelectorAll('.clickable-row').forEach(row => {
+      row.addEventListener('click', function() {
+        const index = parseInt(this.dataset.index);
+        // Find the actual data row (considering filtered data)
+        const filteredData = getFilteredData();
+        if (index < filteredData.length) {
+          copyRowToClipboard(filteredData[index], currentBrand);
+        }
+      });
+    });
+
     rowCount.textContent = data.length;
   }
 
-  // filter logic
-  function filterData() {
+  // Helper to get filtered data
+  function getFilteredData() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     const term = termFilter.value;
 
-    let filtered = currentData.filter(row => {
+    return currentData.filter(row => {
       const model = row[0].toLowerCase();
       const code = row[1].toLowerCase();
       const srpStr = row[2].toString();
@@ -521,7 +657,11 @@
       const colIndex = { '12': 4, '18': 5, '24': 6, '30': 7, '36': 8, '48': 9 }[term];
       return row[colIndex] !== 'N/A';
     });
+  }
 
+  // filter logic
+  function filterData() {
+    const filtered = getFilteredData();
     render(filtered);
   }
 
