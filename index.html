@@ -1,144 +1,363 @@
+<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sumisho Motor · Honda · Suzuki · Yamaha Pricing</title>
-  <!-- Font Awesome -->
+  <title>Sumisho Motors · Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- external CSS -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e8f5e9 0%, #a5d6a7 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 28px;
+      padding: 2.5rem 2.8rem;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(27, 94, 32, 0.25);
+      border: 1px solid rgba(76, 175, 80, 0.15);
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-header .icon {
+      font-size: 3.5rem;
+      color: #2e7d32;
+      background: #e8f5e9;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .login-header h1 {
+      font-size: 1.8rem;
+      color: #1b3c1e;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .login-header p {
+      color: #6a8ca0;
+      font-size: 0.95rem;
+      margin-top: 0.3rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2e5a33;
+      margin-bottom: 6px;
+    }
+
+    .form-group label i {
+      margin-right: 6px;
+      color: #4caf50;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e8f5e9;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: 0.2s;
+      background: #fafffa;
+    }
+
+    .form-group input:focus {
+      border-color: #2e7d32;
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+    }
+
+    .form-group input.error {
+      border-color: #c62828;
+      background: #ffebee;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .login-btn:hover {
+      background: #1b5e20;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      color: #c62828;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+      text-align: center;
+      min-height: 1.5rem;
+      font-weight: 500;
+    }
+
+    .error-message i {
+      margin-right: 6px;
+    }
+
+    .login-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: #8aa9bd;
+    }
+
+    .login-footer i {
+      color: #2e7d32;
+    }
+
+    /* Password toggle */
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-right: 3rem;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #8aa9bd;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 4px;
+    }
+
+    .toggle-password:hover {
+      color: #2e7d32;
+    }
+
+    /* Security badge */
+    .security-badge {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+      font-size: 0.7rem;
+      color: #8aa9bd;
+    }
+
+    .security-badge span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .security-badge i {
+      color: #4caf50;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 1.8rem 1.2rem;
+      }
+
+      .login-header h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container" id="app">
-    <!-- header -->
-    <div class="header">
-      <h1><i class="fas fa-store-alt"></i> Sumisho Motors</h1>
-      <div class="brand-switch">
-        <button class="brand-btn active" data-brand="honda"><i class="fas fa-motorcycle"></i> Honda</button>
-        <button class="brand-btn" data-brand="suzuki"><i class="fas fa-motorcycle"></i> Suzuki</button>
-        <button class="brand-btn" data-brand="yamaha"><i class="fas fa-motorcycle"></i> Yamaha</button>
+  <div class="login-container">
+    <div class="login-header">
+      <div class="icon">
+        <i class="fas fa-store-alt"></i>
       </div>
-      <div class="header-actions">
-        <button class="add-btn" id="addUnitBtn"><i class="fas fa-plus-circle"></i> Add Unit</button>
-        <span class="badge"><i class="fas fa-calendar-alt"></i> <span id="dateDisplay">Aug 03, 2026</span></span>
-      </div>
+      <h1>Sumisho Motors</h1>
+      <p>Secure Pricing Portal</p>
     </div>
 
-    <!-- search & filters -->
-    <div class="search-section">
-      <div class="search-wrapper">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Search model, code, or SRP..." autocomplete="off">
+    <form id="loginForm" autocomplete="off">
+      <div class="form-group">
+        <label for="username"><i class="fas fa-user"></i> Username</label>
+        <input type="text" id="username" placeholder="Enter username" value="admin" autofocus>
       </div>
-      <div class="filter-group">
-        <label><i class="fas fa-tag"></i> Term</label>
-        <select id="termFilter">
-          <option value="all">All terms</option>
-          <option value="12">12 mo.</option>
-          <option value="18">18 mo.</option>
-          <option value="24">24 mo.</option>
-          <option value="30">30 mo.</option>
-          <option value="36">36 mo.</option>
-          <option value="48">48 mo.</option>
-        </select>
-        <button class="reset-btn" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
-      </div>
-    </div>
 
-    <!-- table -->
-    <div class="table-responsive">
-      <table id="priceTable">
-        <thead>
-          <tr>
-            <th style="text-align:left; padding-left:1.2rem;">Model</th>
-            <th>Code</th>
-            <th>SRP (₱)</th>
-            <th>D/P (₱)</th>
-            <th>12</th>
-            <th>18</th>
-            <th>24</th>
-            <th>30</th>
-            <th>36</th>
-            <th>48</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody">
-          <!-- rows injected by JS -->
-        </tbody>
-      </table>
-    </div>
-    <div class="footer-note">
-      <i class="fas fa-store-alt"></i> Rizal Autozone · Cebu · <span id="brandFooter">Honda</span> Pricing
-      <span style="margin-left: auto; font-size: 0.75rem; color: #8aa9bd;">Total: <span id="rowCount">0</span> units</span>
+      <div class="form-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" placeholder="Enter password" value="sumisho2026">
+          <button type="button" class="toggle-password" id="togglePassword">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="errorDisplay" class="error-message"></div>
+
+      <button type="submit" class="login-btn">
+        <i class="fas fa-sign-in-alt"></i> Access Dashboard
+      </button>
+
+      <div class="security-badge">
+        <span><i class="fas fa-shield-alt"></i> Secure</span>
+        <span><i class="fas fa-lock"></i> Encrypted</span>
+        <span><i class="fas fa-clock"></i> Session</span>
+      </div>
+    </form>
+
+    <div class="login-footer">
+      <i class="fas fa-motorcycle"></i> Authorized Personnel Only
     </div>
   </div>
 
-  <!-- Modal for adding new unit -->
-  <div class="modal-overlay" id="addModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3><i class="fas fa-plus-circle"></i> Add New Motorcycle Unit</h3>
-        <button class="modal-close" id="modalCloseBtn">&times;</button>
-      </div>
-      <form id="addForm">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="newModel">Model Name *</label>
-            <input type="text" id="newModel" placeholder="e.g. ADV160" required>
-          </div>
-          <div class="form-group">
-            <label for="newCode">Code</label>
-            <input type="text" id="newCode" placeholder="e.g. ADV160AP">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="newSRP">SRP (₱) *</label>
-            <input type="number" id="newSRP" placeholder="171400" required>
-          </div>
-          <div class="form-group">
-            <label for="newDP">Down Payment (₱) *</label>
-            <input type="number" id="newDP" placeholder="12900" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="newM12">12 mo.</label>
-            <input type="text" id="newM12" placeholder="18056 or N/A">
-          </div>
-          <div class="form-group">
-            <label for="newM18">18 mo.</label>
-            <input type="text" id="newM18" placeholder="13368 or N/A">
-          </div>
-          <div class="form-group">
-            <label for="newM24">24 mo.</label>
-            <input type="text" id="newM24" placeholder="11016 or N/A">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="newM30">30 mo.</label>
-            <input type="text" id="newM30" placeholder="9663 or N/A">
-          </div>
-          <div class="form-group">
-            <label for="newM36">36 mo.</label>
-            <input type="text" id="newM36" placeholder="8761 or N/A">
-          </div>
-          <div class="form-group">
-            <label for="newM48">48 mo.</label>
-            <input type="text" id="newM48" placeholder="N/A">
-          </div>
-        </div>
-        <div class="form-actions">
-          <button type="button" class="btn-cancel" id="modalCancelBtn">Cancel</button>
-          <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Add Unit</button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <script>
+    // ===== LOGIN CREDENTIALS =====
+    // ⚠️ CHANGE THESE TO YOUR OWN CREDENTIALS
+    const VALID_CREDENTIALS = {
+      username: 'admin',
+      password: 'sumisho2026'
+    };
 
-  <!-- external JavaScript -->
-  <script src="script.js"></script>
+    // ===== LOGIN FUNCTIONALITY =====
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const errorDisplay = document.getElementById('errorDisplay');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+
+    // Toggle password visibility
+    togglePasswordBtn.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.querySelector('i').classList.toggle('fa-eye');
+      this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+
+    // Handle login
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      // Clear previous error styles
+      usernameInput.classList.remove('error');
+      passwordInput.classList.remove('error');
+      errorDisplay.textContent = '';
+
+      // Validate credentials
+      if (username === VALID_CREDENTIALS.username && password === VALID_CREDENTIALS.password) {
+        // ✅ Login successful
+        // Store login session
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('loginTime', Date.now().toString());
+
+        // Redirect to main page
+        window.location.href = 'index.html';
+      } else {
+        // ❌ Login failed
+        errorDisplay.innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid username or password.';
+
+        // Highlight error fields
+        if (username !== VALID_CREDENTIALS.username) {
+          usernameInput.classList.add('error');
+        }
+        if (password !== VALID_CREDENTIALS.password) {
+          passwordInput.classList.add('error');
+        }
+
+        // Shake animation
+        loginForm.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+          loginForm.style.animation = '';
+        }, 500);
+
+        // Clear password
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    });
+
+    // Add shake animation
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20% { transform: translateX(-10px); }
+        40% { transform: translateX(10px); }
+        60% { transform: translateX(-5px); }
+        80% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+    // Enter key to submit
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const active = document.activeElement;
+        if (active === usernameInput || active === passwordInput) {
+          loginForm.dispatchEvent(new Event('submit'));
+        }
+      }
+    });
+
+    // Check if already logged in (prevent back navigation issues)
+    window.addEventListener('load', function() {
+      if (sessionStorage.getItem('isLoggedIn') === 'true') {
+        // If already logged in, redirect to main page
+        window.location.href = 'index.html';
+      }
+    });
+  </script>
 </body>
 </html>
