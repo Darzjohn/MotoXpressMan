@@ -493,9 +493,7 @@
     
     // Format the text for clipboard
     const text = `🏍️ MotoXpress Mandaue - ${brandName.toUpperCase()}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 MOTORCYCLE DETAILS
-━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 🚲 Model: ${model}
 💰 SRP: ${formatCurrency(srp)}
 💵 Down Payment: ${formatCurrency(dp)}
@@ -509,14 +507,7 @@
 36 months: ${formatCurrency(m36)}
 48 months: ${formatCurrency(m48)}
 Rebit: 200
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-FREEBIES INCLUSION:
-3 YEARS LTO REGISTRATION
-3 YAERS TPL INSURANCE
-1 YEAR WARRANTY
-GAS ACTIVATION
-HALF FACE HELMET
-━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
 
     // Copy to clipboard
