@@ -493,7 +493,7 @@
     
     // Format the text for clipboard
     const text = `🏍️ MotoXpress Mandaue - ${brandName.toUpperCase()}
-
+━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚲 Model: ${model}
 💰 SRP: ${formatCurrency(srp)}
 💵 Down Payment: ${formatCurrency(dp)}
@@ -507,8 +507,7 @@
 36 months: ${formatCurrency(m36)}
 48 months: ${formatCurrency(m48)}
 Rebit: 200
-
-📅 ${new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+}`;
 
     // Copy to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
