@@ -507,7 +507,7 @@
 36 months: ${formatCurrency(m36)}
 48 months: ${formatCurrency(m48)}
 Rebit: 200
-}`;
+`;
 
     // Copy to clipboard
     if (navigator.clipboard && navigator.clipboard.writeText) {
